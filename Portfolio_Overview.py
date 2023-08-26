@@ -171,8 +171,7 @@ with col3:
     if report_button:
         switch_page("Reporting")   
 
-add_line()
-
+st.divider()
 
 ## Project Map
 m = leafmap.Map(zoom=2)
