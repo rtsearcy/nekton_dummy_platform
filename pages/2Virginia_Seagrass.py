@@ -164,7 +164,7 @@ with col2: # Map
     legend = LegendControl(legend={'2021':'yellow',
                                     '2020':'orange',
                                     '2019':'red'}, name="Year", position="topright")
-    m.add_control(legend)
+    # m.add_control(legend)
     
     m.to_streamlit(height=500)
 
