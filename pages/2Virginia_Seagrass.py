@@ -134,7 +134,7 @@ with col2: # Map
     os.environ["PLANET_API_KEY"] = '6b4d53883da74c35852dc7a342c42c74'
     map_center = [37.2, -75.85]
     
-    m = leafmap.Map(center=map_center, zoom=12)
+    m = leafmap.Map(center=map_center, zoom=11)
     m.add_planet_by_month(year=2022, month=10)
     
     shp1 = './data/shapefiles/VA_seagrass_2021.shp'
@@ -161,10 +161,10 @@ with col2: # Map
         style=style,
         fill_colors=['red'])
     
-    legend = LegendControl(legend={'2021':'yellow',
-                                    '2020':'orange',
-                                    '2019':'red'}, name="Year", position="topright")
-    # m.add_control(legend)
+    # legend = LegendControl(legend={'2021':'yellow',
+    #                                 '2020':'orange',
+    #                                 '2019':'red'}, name="Year", position="topright")
+    # # m.add_control(legend)
     
     m.to_streamlit(height=500)
 

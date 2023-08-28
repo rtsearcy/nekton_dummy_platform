@@ -12,8 +12,8 @@ from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.switch_page_button import switch_page
 from streamlit_extras.add_vertical_space import add_vertical_space
-#import leafmap.foliumap as leafmap
-import leafmap
+import leafmap.foliumap as leafmap
+#import leafmap
 from ipyleaflet import LegendControl
 from folium import Icon
 from streamlit_folium import st_folium
@@ -154,19 +154,13 @@ with col2: # Map
         layer_name="2022",
         style=style,
         fill_colors=['orange'])
-    
-    # m.add_shp(
-    #     shp3,
-    #     layer_name="2019",
-    #     style=style,
-    #     fill_colors=['red'])
-    
-    legend = LegendControl(legend={'2021':'yellow',
-                                   '2022':'orange',
-                                    #'2019':'red'
-                                    },
-                                   name="Year", position="topright")
-    m.add_control(legend)
+
+    # legend = LegendControl(legend={'2021':'yellow',
+    #                                '2022':'orange',
+    #                                 #'2019':'red'
+    #                                 },
+    #                                name="Year", position="topright")
+    # m.add_control(legend)
     
     m.to_streamlit(height=500)
 
