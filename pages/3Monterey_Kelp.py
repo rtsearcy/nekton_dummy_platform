@@ -40,7 +40,8 @@ st.set_page_config(layout="wide", page_icon = './nekton_logos/nekton_logo.png')
 
 # Sidebar
 # add logo
-add_logo("./nekton_logos/nekton_logo_blue_small.png", height=30)
+#add_logo("./nekton_logos/nekton_logo_blue_small.png", height=30)
+add_logo("./nekton_logos/nekton_logo_small.png", height=75)
 
 # Hide Streamlit logos
 hide_streamlit_style = """
@@ -58,7 +59,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 col1, col2 = st.columns([9,1])
 with col1:
     st.header('Monterey Kelp Restoration Project')
-    st.write('Monterey Bay, CA, USA (For illustrative purposes only)')
+    st.write('Monterey Bay, CA, USA')
 with col2:
     st.image('./data/kelp_symbol.png')
 
@@ -66,82 +67,100 @@ add_line()
         
 
 # Site Metrics
-col1, col2 = st.columns([1,2])
+col1, col2, col3 = st.columns([1,2,2])
 with col1:
-    col1.metric(label="Nekton Ocean IQ", 
-                value='B+', 
-                help= 'Cumulative score after assessing carbon, ecosystem, and social impacts of the project')
     col1.metric(label="Carbon Removed", 
                 value='5,881  tCO2', 
                 delta=+750,
                 help= 'Total carbon removals you have purchased from this project (and the change this year')
+    col1.metric(label="ECO", 
+                value='4/5', 
+                help= 'Cumulative score after assessing carbon, ecosystem, and social impacts of the project')
+    col1.metric(label="SOCIO", 
+                value='5/5', 
+                help= 'Cumulative score after assessing carbon, ecosystem, and social impacts of the project')
     style_metric_cards()
     # st.write('Methodology:')
     # st.image('./data/verra_logo.png')
 
     
 with col2:
+    #st.header('Nekton Ocean IQ')
     
-    df = pd.DataFrame(dict(
-                        r=[5, 4, 2, 3],
-                        theta=['Carbon Removal Quality',
-                               'Ecosystem Co-Benefit',
-                               'Community Co-Benefit ',
-                               'Transparency']))
+    names=['75','CO2','ECO','SOC','DATA','LEAK','PERM','UNCERT','WQ','BIO','EDU','JOB','OPEN']
+    parents=['','75','75','75','75','CO2','CO2','CO2','ECO','ECO','SOC','SOC','DATA']
+    values=[1000,250,200,200,100,100,75,50,60,80,100,100,100]
     
-    fig = px.line_polar(df, r='r', theta='theta', line_close=True)
-    
-    fig.update_traces(fill='toself')
-    
+    fig = px.sunburst(names=names,
+                      values=values,
+                      parents=parents,
+                      branchvalues='total'
+                      )
+                     
     fig.update_layout(
-                      # title={
-                      #     'text': "Nekton Ocean IQ",
-                      #      'y':0.95,
-                      #      'x':0.5,
-                      #      'xanchor': 'center',
-                      #      'yanchor': 'bottom',
-                      #     'font':{'family':"Helvetica", 'size':30}
-                      #     },
-                      polar = dict(
-                              radialaxis = dict(range=[0, 5], showticklabels=False, ticks=''),
-                              angularaxis = dict(showticklabels=True, tickfont={'size':20}, ticks='')))
+                        title={
+                            'text': "Nekton Ocean IQ",
+                            'y':0.9,
+                            'x':0.05,
+                            'xanchor': 'left',
+                            'yanchor': 'bottom',
+                            'font':{'family':"Helvetica", 'size':30}
+                            }
+                        )
+    #                   polar = dict(
+    #                           radialaxis = dict(range=[0, 5], showticklabels=False, ticks=''),
+    #                           angularaxis = dict(showticklabels=True, tickfont={'size':20}, ticks='')))
     
     st.plotly_chart(fig, use_container_width=True)
     
+col3.header('SDGs')
+col3.image('./data/sdg_14_seal.png')
+col3.write('''Dedicated efforts are underway to restore sea lion populations 
+           along coastal regions. These initiatives aim to protect marine 
+           biodiversity, ensure sustainable fishing practices, and preserve the 
+           delicate balance of ocean ecosystems for future generations...''')
+    
+
 st.divider()
 
 # Site Description
 col1, col2 = st.columns([1,2])
 with col1:
     st.header('Site Description')
-    st.write('''Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-             sed do eiusmod tempor incididunt ut labore et dolore magna 
-             aliqua. Dignissim enim sit amet venenatis urna. Consectetur 
-             adipiscing elit duis tristique sollicitudin nibh sit amet 
-             commodo. Tincidunt augue interdum velit euismod. Hac 
-             habitasse platea dictumst vestibulum rhoncus est 
-             pellentesque elit. Ipsum faucibus vitae aliquet 
-             nec ullamcorper sit amet risus. Dictum sit amet 
-             justo donec enim. Neque egestas congue quisque 
-             egestas diam in arcu cursus euismod. Tortor id aliquet 
-             lectus proin nibh nisl condimentum id. Feugiat sed 
-             lectus vestibulum mattis ullamcorper velit sed ullamcorper.
+    st.write('''Nestled along the shores of Monterey, California, this kelp restoration 
+             site is a significant effort in advancing marine carbon sequestration 
+             research. Through rigorous planning and meticulous ecosystem restoration, 
+             the project developers aim to enhance carbon storage capacity by 
+             revitalizing kelp forests in the region. This project, deeply rooted 
+             in science and community involvement, seeks to not only understand the 
+             intricacies of carbon capture by kelp but also actively engage local
+             residents in the restoration process.''')
+    st.write('''At the Monterey site, carbon storage is a focal point, as developers deploy 
+            artificial kelp forests to measure their effectiveness in sequestering 
+            carbon dioxide from the atmosphere. This endeavor aligns with a broader mission 
+            to combat climate change by utilizing nature-based solutions. These efforts 
+            extend beyond research, actively involving the local community in the 
+            restoration project, fostering awareness and empowering residents to 
+            contribute to marine ecosystem health and the mitigation of climate change. 
+            Together, they are unlocking the potential of kelp ecosystems as a tool for 
+            carbon capture while building a deeper connection between science and the 
+            community.
              
              ''')
              
  
 with col2: # Map
     os.environ["PLANET_API_KEY"] = '6b4d53883da74c35852dc7a342c42c74'
-    map_center = [36.52, -121.951478]
+    map_center = [36.555, -121.951478]
     
-    m = leafmap.Map(center=map_center, zoom=13)
+    m = leafmap.Map(center=map_center, zoom=14)
     m.add_xyz_service("qms.Google Satellite")
     
     shp1 = './data/shapefiles/kelp_monterey1.shp'
     shp2 = './data/shapefiles/kelp_monterey2.shp'
     # shp3 = './data/shapefiles/VA_seagrass_2019.shp'
     
-    style = {'fillOpacity': 0.3}
+    style = {'fillOpacity': 0.1}
     
     m.add_shp(
         shp1,
@@ -167,10 +186,10 @@ with col2: # Map
 st.divider()
 
 
-col1, col2, col3 = st.columns(3)
-col1.image('./data/sdg_4.png')
-col1.write('The project proponents....')
-col2.image('./data/sdg_6.png')
-col2.write('The project proponents....')
-col3.image('./data/sdg_14.png')
-col3.write('The project proponents....')
+# col1, col2, col3 = st.columns(3)
+# col1.image('./data/sdg_4.png')
+# col1.write('The project proponents....')
+# col2.image('./data/sdg_6.png')
+# col2.write('The project proponents....')
+# col3.image('./data/sdg_14.png')
+# col3.write('The project proponents....')

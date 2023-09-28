@@ -40,7 +40,8 @@ st.set_page_config(layout="wide", page_icon = './nekton_logos/nekton_logo.png')
 # Sidebar
 
 # add logo
-add_logo("./nekton_logos/nekton_logo_blue_small.png", height=30)
+#add_logo("./nekton_logos/nekton_logo_blue_small.png", height=30)
+add_logo("./nekton_logos/nekton_logo_small.png", height=75)
 
 
 # Hide Streamlit logos
@@ -56,18 +57,18 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # Title bar
 col1, col2 = st.columns([9,1])
 with col1:
-    st.title('Dummy Company')
-with col2:
-    st.image('./nekton_logos/nekton_logo.png')
+    st.title('United Tools Corp.')
+#with col2:
+    #st.image('./nekton_logos/nekton_logo.png')
     #st.title('Integrated Data System')
     
 add_line()
     
 # Overall Metrics 
 col1, col2, col3 = st.columns(3)
-col1.metric(label="Removed", value=str(projects.total_CO2.sum())+'  tCO2', delta=+11000,
+col1.metric(label="Removed", value='29,543 tCO2', delta='+11,000',
             help= 'Total carbon removed by your projects (and the change this year')
-col2.metric(label="Invested", value='$ ' + str(projects.spent.sum()), delta=1300,
+col2.metric(label="Invested", value='$ 359,294', delta='+$13,000',
             help= 'Amount your organization has invested in CDR solutions')
 col3.metric(label="Projects", value=projects.projects.sum(), delta=2,
             help='Number of projects in your portfolio')
@@ -78,48 +79,60 @@ add_line()
 # Overview charts
 col1, col2, col3 = st.columns([9,9,1])
 with col1:
-    bar = px.bar(projects, x="projects", 
-                 y="projects", 
-                 color='rating', 
-                 orientation='h',
-                 hover_name = 'project_name',
-                 hover_data=["rating"],
-                 height=400,
-                 title='Nekton Ocean IQ Score (All)',
-                 color_discrete_sequence=px.colors.sequential.Aggrnyl
-                 )
+    #st.header('Portfolio Ocean IQ')
     
-    bar.update_traces(showlegend=True, 
-                      marker=dict(line=dict(color='#FFFFFF', width=5)))
+    names = ['BC','Kelp','OAE', 
+              'Tomales','Baja','Virginia','Monterey','S. Africa','Spain',
+              '92','90', '84', '75', '82', '80']
+    parents = ['','','',
+                'BC','BC','BC','Kelp','Kelp','OAE',
+                'Tomales','Baja','Virginia','Monterey','S. Africa','Spain']
+    values = [300,200,100,
+               100,100,100,100,100,100,
+               92, 90, 84, 75, 82, 80]
+    colors = ['rgb(33, 75, 99)', 'rgb(79, 129, 102)', 'rgb(129, 180, 179)', 
+              'rgb(33, 75, 99)','rgb(33, 75, 99)','rgb(33, 75, 99)','rgb(79, 129, 102)','rgb(79, 129, 102)','rgb(129, 180, 179)',
+              'rgb(33, 75, 99)','rgb(33, 75, 99)','rgb(33, 75, 99)','rgb(79, 129, 102)','rgb(79, 129, 102)','rgb(129, 180, 179)'
+              ]
+    color_map = {'BC':'rgb(33, 75, 99)',
+                 'Kelp':'rgb(79, 129, 102)',
+                 'OAE':'rgb(129, 180, 179)',
+                 'Tomales':'rgb(33, 75, 99)',
+                 'Baja':'rgb(33, 75, 99)',
+                 'Virginia':'rgb(33, 75, 99)',
+                 'Monterey':'rgb(79, 129, 102)',
+                 'S. Africa':'rgb(79, 129, 102)',
+                 'Spain':'rgb(129, 180, 179)',
+                 '92': 'white',
+                 '84': 'white',
+                 '90': 'white',
+                 '75': 'white',
+                 '82': 'white',
+                 '80': 'white'}
     
-    bar.update_layout(
-                      title={
-                          # 'text': "Project Breakdown",
-                          # 'y':0.9,
-                          # 'x':0.99,
-                          # 'xanchor': 'right',
-                          # 'yanchor': 'top',
-                          'font':{'family':"Helvetica", 'size':30}
-                          },
-                      yaxis={'visible': False, 'showticklabels': False},
-                      xaxis={'visible': False, 'showticklabels': False},
-                      legend=dict(
-                          yanchor="bottom",
-                          y=0.95,
-                          xanchor="center",
-                          x=0.5,
-                          orientation='h',
-                          title='',
-                          itemsizing='constant',
-                          bgcolor = 'rgba(0,0,0,0)',
-                          font=dict(
-                              family="Helvetica",
-                              size=18,
-                              color="black"))
-                      
-                      )
+    tree = px.treemap(
+        names=names,
+        parents=parents,
+        values=values,
+        color=names,
+        color_discrete_map=color_map,
+        #title='Portfolio Ocean IQ',
+        branchvalues='total',
+        width=450, height=400)
     
-    st.plotly_chart(bar, use_container_width=True)
+    
+    tree.update_layout(
+        title={
+            'text': "Portfolio Ocean IQ",
+            'y':0.95,
+            'x':0.01,
+            'xanchor': 'left',
+            'yanchor': 'top',
+            'font':{'family':"Helvetica", 'size':34}
+            },
+        )
+    
+    st.plotly_chart(tree, use_container_width=True)
     
 with col2:
 
@@ -140,11 +153,11 @@ with col2:
     donut.update_layout(
         title={
             'text': "Project Breakdown",
-            'y':0.9,
+            'y':0.95,
             'x':0.99,
             'xanchor': 'right',
             'yanchor': 'top',
-            'font':{'family':"Helvetica", 'size':30}
+            'font':{'family':"Helvetica", 'size':34}
             },
         legend=dict(
             yanchor="middle",
